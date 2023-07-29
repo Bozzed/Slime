@@ -42,7 +42,7 @@ public class Player extends Entity {
 		setDialogue();
 	}
 	public void setDialogue() {
-		dialogues[0][0] = "You take a drink of the water.\nYour life has been restored.\n(Progress saved)";
+		dialogues[0][0] = "You take a drink of the water.\nYour life has been restored.\n(Progress saved)\nThat's some good water!";
 	}
 	public void setDefaultPositions() {
 		worldX = gp.tileSize * 23;
