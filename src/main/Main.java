@@ -3,10 +3,14 @@ package main;
 import javax.swing.*;
 
 public class Main {
+	
 	public static JFrame window;
+	
     public static void main(String[] args) throws Exception {
         
     	System.setProperty("sun.java2d.opengl", "true");
+    	JLabel label = new JLabel();
+    	label.setText("Hello?");
     	
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,10 +20,11 @@ public class Main {
 
         GamePanel gamePanel = new GamePanel();
         gamePanel.config.loadConfig();
-        if (gamePanel.borderless == true) {
-        	window.setUndecorated(true);
-        }
         window.add(gamePanel);
+        
+    //    if (gamePanel.fullscreen == true) {
+    //   	window.setUndecorated(true);
+    //    }
 
         window.pack();
         

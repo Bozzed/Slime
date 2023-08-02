@@ -22,10 +22,10 @@ public class Config {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("config.txt"));
 			
 			// BORDERLESS WINDOW
-			if (gp.borderless == true) {
+			if (gp.fullscreen == true) {
 				bw.write("true");
 			}
-			if (gp.borderless == false) {
+			if (gp.fullscreen == false) {
 				bw.write("false");
 			}
 			bw.newLine();
@@ -48,10 +48,10 @@ public class Config {
 			
 			// BORDERLESS WINDOW
 			if (s.equals("true")) {
-				gp.borderless = true;
+				gp.fullscreen = true;
 			}
 			if (s.equals("false")) {
-				gp.borderless = false;
+				gp.fullscreen = false;
 			}
 			
 			// SOUND

@@ -96,6 +96,9 @@ public class TileManager {
 		setup(80, "wall_stone", true);
 		setup(81, "floor_tile", false);
 		setup(90, "hut", true);
+		setup(91, "wall_metal", true);
+		setup(92, "floor_metal", false);
+		
 	}
 
 	public void setup(int index, String imageName, boolean collision) {

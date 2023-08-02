@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -43,7 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
     public int screenWidth = tileSize * maxScreenCol; // 960 pixels
     public int screenHeight = tileSize * maxScreenRow;// 576 pixels
     
-    public boolean borderless = false;
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    
+    public boolean fullscreen = false;
     
     // FULL SCREEN
     BufferedImage screen;
@@ -74,8 +79,8 @@ public class GamePanel extends JPanel implements Runnable {
     
     PointerInfo mInfo = MouseInfo.getPointerInfo();
 	Point point = mInfo.getLocation();
-	int mouseX;
-	int mouseY;
+	public int mouseX;
+	public int mouseY;
 	public String mouseDir;
     
     // SOUND
@@ -175,13 +180,23 @@ public class GamePanel extends JPanel implements Runnable {
     	screen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
     	g2 = (Graphics2D)screen.getGraphics();
     	
+    	if (fullscreen == true) {
+    		setFullScreen();
+    	}
     }
     public void startGameThread() {
 
         gameThread = new Thread(this);
         gameThread.start();
     }
-    
+    public void setFullScreen() {
+    	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	GraphicsDevice gd = ge.getDefaultScreenDevice();
+    	gd.setFullScreenWindow(Main.window);
+    	
+    	screenWidth2 = Main.window.getWidth();
+    	screenHeight2 = Main.window.getHeight();
+    }
     @Override
     public void run() {
         
@@ -284,7 +299,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void drawToScreen() {
     	Graphics g = getGraphics();
-    	g.drawImage(screen, 0, 0, screenWidth, screenHeight, null);
+    	g.drawImage(screen, 0, 0, screenWidth2, screenHeight2, null);
     	g.dispose();
     }
     public void drawToTempScreen() {

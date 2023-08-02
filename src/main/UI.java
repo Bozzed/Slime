@@ -234,12 +234,12 @@ public class UI {
 	public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
 		Color c = new Color(0, 0, 0, 220);
 		g2.setColor(c);
-		g2.fillRoundRect(x, y, width, height, 25, 25);
+		g2.fillRect(x, y, width, height); // , 25, 25
 		
 		c = new Color(255, 255, 255);
 		g2.setStroke(new BasicStroke(5));
 		g2.setColor(c);
-		g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
+		g2.drawRect(x+5, y+5, width-10, height-10); // , 25, 25
 	}
 	public void drawSleepScreen(Graphics2D g2) {
 		counter++;
@@ -386,11 +386,10 @@ public class UI {
 		g2.setColor(Color.white);
 		g2.drawString(text, x, y);
 		
-		// WARNING TEXT
-		text = "Please note that some functionalities and textures may be broken.";
+		// VERSION
+		text = "Early Acess 1.0.1";
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
 		g2.drawString(text, x, y + 30);
-		g2.drawString("Early Acess 1.0", 1, gp.screenHeight - 2);
 		
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 100F));
 		
@@ -619,18 +618,18 @@ public class UI {
 		g2.drawString(text, textX, textY);
 		
 		// BORDERLESS WINDOW
-		text = "Borderless Window";
+		text = "Fullscreen";
 		textX = frameX + gp.tileSize;
 		textY += gp.tileSize * 2;
 		g2.drawString(text, textX, textY);
 		if (commandNum == 0) {
 			g2.drawString(">", textX - 25, textY);
 			if (gp.keyH.enterPressed == true) {
-				if (gp.borderless == false) {
-					gp.borderless = true;
+				if (gp.fullscreen == false) {
+					gp.fullscreen = true;
 				}
-				else if (gp.borderless == true) {
-					gp.borderless = false;
+				else if (gp.fullscreen == true) {
+					gp.fullscreen = false;
 				}
 				subState = 1;
 			}
@@ -696,7 +695,7 @@ public class UI {
 		textY = frameY + gp.tileSize*2 + 24;
 		g2.setStroke(new BasicStroke(3));
 		g2.drawRect(textX, textY, 24, 24);
-		if (gp.borderless == true) {
+		if (gp.fullscreen == true) {
 			g2.fillRect(textX, textY, 24, 24);
 		}
 		
