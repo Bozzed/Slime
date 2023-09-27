@@ -19,7 +19,7 @@ public class Projectile extends Entity {
 		if (user == gp.player) {
 			int alienIndex = gp.cChecker.checkEntity(this, gp.monster);
 			if (alienIndex != 999) {
-				gp.player.damageMonster(alienIndex, this, attack, gp.player.currentWeapon.knockBackPower);
+				gp.player.damageMonster(alienIndex, this, attack, gp.player.hand.knockBackPower);
 				generateParticle(user.projectile, gp.monster[gp.currentMap][alienIndex]);
 				alive = false;
 			}

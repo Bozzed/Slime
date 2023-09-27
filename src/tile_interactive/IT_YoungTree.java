@@ -30,7 +30,7 @@ public class IT_YoungTree extends InteractiveTile {
 	}
 	public boolean isCorrectItem(Entity entity) {
 		boolean isCorrectItem = false;
-		if (entity.currentWeapon.type == axe_type) {
+		if (entity.hand.type == axe_type) {
 			isCorrectItem = true;
 		}
 		return isCorrectItem;

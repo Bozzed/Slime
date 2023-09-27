@@ -28,7 +28,10 @@ import entity.Entity;
 import entity.EntityGenerator;
 import entity.Player;
 import environment.EnvironmentManager;
+import object.OBJ_Axe;
 import object.OBJ_Chest;
+import object.OBJ_Flashlight;
+import object.OBJ_Knife;
 import tile.Map;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
@@ -70,9 +73,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int dungeon = 52;
     
     // DEBUG
-    public boolean debug = true;
+    public boolean debug = false;
+    
     // FPS LIMIT
     public int FPS = 60;
+    public long currentFPS = FPS;
     
     // TILE MANAGER
     public TileManager tileM = new TileManager(this);
@@ -116,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
     public Entity obj[][] = new Entity[maxMap][10];
     public Entity npc[][] = new Entity[maxMap][5];
+    public Entity recepies[] = new Entity[10];
     public Entity monster[][] = new Entity[maxMap][10];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][50];
     public Entity projectile[][] = new Entity[maxMap][5];
@@ -150,9 +156,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int cutsceneState = 11;
     public final int optionsState = 12;
     public final int mapState = 13;
+    public final int workbenchState = 14;
     
     public boolean bossBattleOn = false;
     public boolean skeletonLordCutsceneSeen = false;
+    
+    public String movement = "keys";
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -167,6 +176,11 @@ public class GamePanel extends JPanel implements Runnable {
     	player.restoreAfterDeath();
     	removeTempObjects();
     	bossBattleOn = false;
+    	for (int i = 0; i < monster.length; i++) {
+    		if (monster[currentMap][i] != null) {
+    			monster[currentMap][i].onPath = false;
+    		}
+    	}
     }
     public void setupGame() {
     	aSetter.setObject();
@@ -176,6 +190,7 @@ public class GamePanel extends JPanel implements Runnable {
     	eManager.setup();
     	gameState = titleState;
     	currentArea = outside;
+    	setRecepies();
     	
     	screen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
     	g2 = (Graphics2D)screen.getGraphics();
@@ -223,14 +238,15 @@ public class GamePanel extends JPanel implements Runnable {
     		}
     		if (timer >= 1000000000) {
     			System.out.println("FPS: " + drawCount);
+    			currentFPS = drawCount;
     			drawCount = 0;
     			timer = 0;
     		}
     	}
     }
     public void update() {
+		getMouseValues();
     	if (gameState == playState) {
-    		getMouseValues();
     		// PLAYER
     		player.update();
     		
@@ -241,22 +257,23 @@ public class GamePanel extends JPanel implements Runnable {
             	}
             }
             for (int i = 0; i < obj[1].length; i++) {
-            	if (obj[currentMap][i] != null && obj[currentMap][i].dropped == true 
-            			|| obj[currentMap][i] != null && obj[currentMap][i].name == OBJ_Chest.objName 
+            	if (obj[currentMap][i] != null && obj[currentMap][i].name == OBJ_Chest.objName 
             			|| obj[currentMap][i] != null && obj[currentMap][i].type == obj[currentMap][i].pickupOnly_type
-            			|| obj[currentMap][i] != null && obj[currentMap][i].update == true
             			&& obj[currentMap][i].inCamera() == true) {
             		obj[currentMap][i].down2 = obj[currentMap][i].down1;
             		obj[currentMap][i].left1 = obj[currentMap][i].down1;
             		obj[currentMap][i].up1 = obj[currentMap][i].down1;
             		obj[currentMap][i].update();
             	}
-            	if (obj[currentMap][i] != null && obj[currentMap][i].update == true && obj[currentMap][i].inCamera() == true) {
-            		obj[currentMap][i].update();
-            	}
             }
             for (int i = 0; i < monster[1].length; i++) {
             	if (monster[currentMap][i] != null) {
+            	//	if (monster[currentMap][i].alive == true && monster[currentMap][i].dying == false && monster[currentMap][i].inCamera() == true) {
+            	//		monster[currentMap][i].update();
+            	//	}
+            	//	if (monster[currentMap][i].alive == false && monster[currentMap][i].inCamera() == true) {
+            	//		monster[currentMap][i] = null;
+            	//	}
             		if (monster[currentMap][i].alive == true && monster[currentMap][i].dying == false && monster[currentMap][i].inCamera() == true) {
             			monster[currentMap][i].update();
             		}
@@ -406,7 +423,11 @@ public class GamePanel extends JPanel implements Runnable {
             	g2.drawString("WorldX: " + player.worldX, x, y); y += 20;
             	g2.drawString("WorldY: " + player.worldY, x, y); y += 20;
             	g2.drawString("Col: " + (player.worldX + player.solidArea.x)/tileSize, x, y); y += 20;
-            	g2.drawString("Row: " + (player.worldY + player.solidArea.y)/tileSize, x, y); y += 20;
+            	g2.drawString("Row: " + (player.worldY + player.solidArea.y)/tileSize, x, y); y += 40;
+            	g2.drawString("FPS: " + currentFPS, x, y); y += 20;
+            	g2.drawString("Time: " + eManager.lighting.currentDayState, x, y); y += 40;
+            	g2.drawString("Mouse X: " + mouseX, x, y); y += 20;
+            	g2.drawString("Mouse Y: " + mouseY, x, y); y += 20;
             }
         }
     }
@@ -437,5 +458,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void getMouseValues() {
     	mouseX = (int) point.getX();
     	mouseY = (int) point.getY();
+    }
+    public void setRecepies() {
+    	recepies[0] = new OBJ_Axe(this);
+    	recepies[1] = new OBJ_Knife(this);
+    	recepies[2] = new OBJ_Flashlight(this);
     }
 }

@@ -2,6 +2,8 @@ package object;
 
 import entity.Entity;
 import main.GamePanel;
+import material.MAT_IronNugget;
+import material.MAT_Stick;
 
 public class OBJ_Axe extends Entity {
 	
@@ -18,5 +20,9 @@ public class OBJ_Axe extends Entity {
 		attackArea.height = 36;
 		collision = true;
 		knockBackPower = 10;
+		price = 10;
+		
+		craftMat1 = new MAT_Stick(gp);
+		craftMat2 = new MAT_IronNugget(gp);
 	}
 }

@@ -21,8 +21,7 @@ public class OBJ_Chest extends Entity{
 		this.loot2 = loot2;
 		type = obstacle_type;
 		down1 = setup("/objects/chest", gp.tileSize, gp.tileSize);
-		image = setup("/objects/chest_half", gp.tileSize, gp.tileSize);
-		image2 = setup("/objects/chest_open", gp.tileSize, gp.tileSize);
+		image = setup("/objects/chest_open", gp.tileSize, gp.tileSize);
 		collision = true;
 		
 		// SOLID AREA
@@ -52,7 +51,7 @@ public class OBJ_Chest extends Entity{
 				open = true;
 			} else {
 				if (gp.player.inventory.size() != gp.player.maxInventorySize) {
-					down1 = image2;
+					down1 = image;
 					gp.player.canObtainItem(loot1);
 					gp.playSE(6);
 					startDialogue(this, 0);
@@ -64,7 +63,7 @@ public class OBJ_Chest extends Entity{
 			
 		}
 		else {
-			down1 = image2;
+			down1 = image;
 			startDialogue(this, 1);
 		}
 	}

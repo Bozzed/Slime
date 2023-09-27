@@ -9,8 +9,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         
     	System.setProperty("sun.java2d.opengl", "true");
-    	JLabel label = new JLabel();
-    	label.setText("Hello?");
     	
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

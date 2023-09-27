@@ -1,14 +1,12 @@
 package entity;
 
-import java.util.Random;
-
 import main.GamePanel;
+import material.MAT_IronNugget;
 import object.OBJ_Broadsword;
 import object.OBJ_Flashlight;
 import object.OBJ_Glock_17;
-import object.OBJ_Rock;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Sryinge;
+import object.OBJ_Syringe;
 
 public class NPC_Merchant extends Entity{
 	public NPC_Merchant (GamePanel gp) {
@@ -33,6 +31,7 @@ public class NPC_Merchant extends Entity{
 		dialogues[1][0] = "Hehehe...\nSee you soon!";
 		dialogues[2][0] = "You don't have enough money for this, hehe.";
 		dialogues[3][0] = "You're carrying to much stuff, hehe.";
+		dialogues[4][0] = "You can't sell equipted items, hehe...";
 	}
 	public void speak() {
 		startDialogue(this, 0);
@@ -44,7 +43,8 @@ public class NPC_Merchant extends Entity{
 		inventory.add(new OBJ_Broadsword(gp));
 		inventory.add(new OBJ_Glock_17(gp));
 		inventory.add(new OBJ_Flashlight(gp));
-		inventory.add(new OBJ_Sryinge(gp));
+		inventory.add(new OBJ_Syringe(gp));
 		inventory.add(new OBJ_Sleeping_Bag(gp));
+		inventory.add(new MAT_IronNugget(gp));
 	}
 }

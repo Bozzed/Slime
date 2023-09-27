@@ -15,7 +15,7 @@ public class OBJ_Broadsword extends Entity {
 		
 		attackValue = 10;
 		
-		price = 50;
+		price = 70;
 		
 		description = "[" + name + "]\nHeavy and lethal.";
 		

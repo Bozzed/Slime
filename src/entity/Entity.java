@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.UtilityTool;
-import object.OBJ_Aggrovate;
 
 public class Entity {
 	
@@ -26,8 +25,6 @@ public class Entity {
 	public int maxInventorySize = 20;
 	public Entity linkedEntity;
 	Entity attacker;
-	public boolean aggrovateOn = true;
-	public boolean aggrovate = false;
 	
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 	public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2,
@@ -70,15 +67,12 @@ public class Entity {
 	public int knockBackCounter = 0;
 	public int hpBarCounter = 0;
 	public int bobCounter = 0;
-	public int aggrovateOnCounter = 0;
 	
 	// STATUS
 	public int dialogueSet = 0;
 	public boolean stackable = false;
 	public int amount = 1;
 	Entity loot;
-	public int ammo;
-	boolean dissapearOnZeroAmmo = false;
 	public boolean onPath = false;
 	public boolean alive = true;
 	public boolean dying = false;
@@ -94,16 +88,13 @@ public class Entity {
 	public int exp;
 	public int nextLevelExp;
 	public int money;
-	public Entity currentWeapon;
-	public Entity currentShield;
+	public Entity hand;
 	public Projectile projectile;
 	public Entity currentLight;
 	public boolean drawing = true;
 	int xd;
-	public boolean update = false;
 
 	public boolean attackCancelled = false;
-	public boolean aggrovated = false;
 	public boolean pickupable = true;
 	
 	// VALUES
@@ -135,6 +126,9 @@ public class Entity {
 	public final int light_type = 10;
 	public final int pickaxe_type = 11;
 	public final int broadsword_type = 12;
+	public final int material_type = 13;
+	
+	public Entity craftMat1, craftMat2;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -165,19 +159,18 @@ public class Entity {
 			int i = new Random().nextInt(rate);
 			if (i == 0) {
 				onPath = true;
-				aggrovate = true;
 			}
 		}
 	}
 	public void attacking() {
 		if (attackCancelled == false) {
-			if (currentWeapon.type == projectile_type) {
-				((Projectile) currentWeapon).set(worldX, worldY, direction, true, this);
+			if (hand.type == projectile_type) {
+				((Projectile) hand).set(worldX, worldY, direction, true, this);
 	    		attacking = false;
 	    		
 	    		for (int i = 0; i < gp.projectile[1].length; i++) {
 	    			if (gp.projectile[gp.currentMap][i] == null) {
-	    				gp.projectile[gp.currentMap][i] = ((Projectile) currentWeapon);
+	    				gp.projectile[gp.currentMap][i] = ((Projectile) hand);
 	    				break;
 	    			}
 	    		}
@@ -211,7 +204,7 @@ public class Entity {
 						}
 					} else {
 						int alienIndex = gp.cChecker.checkEntity(this, gp.monster);
-						gp.player.damageMonster(alienIndex, this, attack, currentWeapon.knockBackPower);
+						gp.player.damageMonster(alienIndex, this, attack, hand.knockBackPower);
 						
 						int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
 						gp.player.damageInteractiveTile(iTileIndex);
@@ -392,7 +385,7 @@ public class Entity {
 				}
 			} else if (attacking == true) {
 				checkCollision();
-				if (currentWeapon != null) {
+				if (hand != null) {
 					attacking();
 				}
 			} else {
@@ -421,7 +414,7 @@ public class Entity {
 		    		spriteCounter = 0;
 		    	}
 			}
-	    	if (invincible == true) {
+	    	if (invincible == true && dying == false) {
 	    		invincibleCounter++;
 	    		if (invincibleCounter > 20) {
 	    			invincible = false;
@@ -582,7 +575,7 @@ public class Entity {
 			if (dying == true) {
 				dyingAnimation(g2);
 			}
-			if (invincible == true) {
+			else if (invincible == true) {
 				changeAlpha(g2, 0.6f);
 			}
 			if (flying == true) {
@@ -592,18 +585,6 @@ public class Entity {
 				changeAlpha(g2, 1f);
 			} else {
 				g2.drawImage(image, tempScreenX, tempScreenY, null);
-			}
-			for (int i = 0; i < gp.npc[1].length; i++) {
-				if (gp.obj[gp.currentMap][i] == null) {
-					if (aggrovate == true && aggrovated == false) {
-						gp.npc[gp.currentMap][i] = new OBJ_Aggrovate(gp);
-						gp.npc[gp.currentMap][i].worldX = worldX;
-						gp.npc[gp.currentMap][i].worldY = worldY - 25;
-						aggrovate = false;
-						aggrovated = true;
-						break;
-					}
-				}
 			}
 			changeAlpha(g2, 1f);
 		}
@@ -662,34 +643,32 @@ public class Entity {
 		return maxLife;
 	}
 	public void generateParticle(Entity generator, Entity target) {
-		Color color = generator.getParticleColor();
-		int size = generator.getParticleSize();
-		int speed = generator.getParticleSpeed();
-		int maxLife = generator.getParticleMaxLife();
-		
-		Particle p1 = new Particle(gp, generator, color, size, speed, maxLife, -2, -1);
-		gp.particleList.add(p1);
-		Particle p2 = new Particle(gp, generator, color, size, speed, maxLife, 2, -1);
-		gp.particleList.add(p2);
-		Particle p3 = new Particle(gp, generator, color, size, speed, maxLife, -2, 1);
-		gp.particleList.add(p3);
-		Particle p4 = new Particle(gp, generator, color, size, speed, maxLife, 2, 1);
-		gp.particleList.add(p4);
+		if (generator != null) {
+			Color color = generator.getParticleColor();
+			int size = generator.getParticleSize();
+			int speed = generator.getParticleSpeed();
+			int maxLife = generator.getParticleMaxLife();
+			
+			Particle p1 = new Particle(gp, generator, color, size, speed, maxLife, -2, -1);
+			gp.particleList.add(p1);
+			Particle p2 = new Particle(gp, generator, color, size, speed, maxLife, 2, -1);
+			gp.particleList.add(p2);
+			Particle p3 = new Particle(gp, generator, color, size, speed, maxLife, -2, 1);
+			gp.particleList.add(p3);
+			Particle p4 = new Particle(gp, generator, color, size, speed, maxLife, 2, 1);
+			gp.particleList.add(p4);
+		}
 	}
 	public void dyingAnimation(Graphics2D g2) {
 		dyingCounter++;
 		
-		int i = 5;
-		
-		if (dyingCounter <= i) {changeAlpha(g2,0f);}
-		if (dyingCounter > i && dyingCounter <= i*2) {changeAlpha(g2,1f);}
-		if (dyingCounter > i*2&& dyingCounter <= i*3) {changeAlpha(g2,0f);}
-		if (dyingCounter > i*3 && dyingCounter <= i*4) {changeAlpha(g2,1f);}
-		if (dyingCounter > i*4 && dyingCounter <= i*5) {changeAlpha(g2,0f);}
-		if (dyingCounter > i*5 && dyingCounter <= i*6) {changeAlpha(g2,1f);}
-		if (dyingCounter > i*6 && dyingCounter <= i*7) {changeAlpha(g2,0f);}
-		if (dyingCounter > i*7 && dyingCounter <= i*8) {changeAlpha(g2,1f);}
-		if (dyingCounter > i*8) {
+		if (dyingCounter <= 5) {changeAlpha(g2,0f);}
+		if (dyingCounter > 5 && dyingCounter <= 10) {changeAlpha(g2,1f);}
+		if (dyingCounter > 10 && dyingCounter <= 15) {changeAlpha(g2,0f);}
+		if (dyingCounter > 15 && dyingCounter <= 20) {changeAlpha(g2,1f);}
+		if (dyingCounter > 20 && dyingCounter <= 25) {changeAlpha(g2,0f);}
+		if (dyingCounter > 25 && dyingCounter <= 30) {changeAlpha(g2,1f);}
+		if (dyingCounter > 30 ) {
 			dying = false;
 			alive = false;
 		}

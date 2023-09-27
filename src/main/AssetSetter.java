@@ -18,8 +18,9 @@ import object.OBJ_Flashlight;
 import object.OBJ_Gate;
 import object.OBJ_SilverCoin;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Sryinge;
+import object.OBJ_Syringe;
 import object.OBJ_Table;
+import object.OBJ_Workbench;
 import tile_interactive.IT_DeadFlower;
 import tile_interactive.IT_DestructableWall;
 import tile_interactive.IT_Fungi;
@@ -87,7 +88,7 @@ public class AssetSetter {
 		gp.obj[mapNum][i].worldX = 34 * gp.tileSize;
 		gp.obj[mapNum][i].worldY = 23 * gp.tileSize;
 		i++;
-		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Sryinge(gp), null);
+		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Syringe(gp), null);
 		gp.obj[mapNum][i].worldX = 29 * gp.tileSize;
     	gp.obj[mapNum][i].worldY = 17 * gp.tileSize;
 		i++;
@@ -101,7 +102,7 @@ public class AssetSetter {
 		gp.obj[mapNum][i].worldX = 21 * gp.tileSize;
     	gp.obj[mapNum][i].worldY = 20 * gp.tileSize;
 		i++;
-		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Flashlight(gp), null);
+		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Workbench(gp), null);
 		gp.obj[mapNum][i].worldX = 24 * gp.tileSize;
     	gp.obj[mapNum][i].worldY = 19 * gp.tileSize;
 		i++;

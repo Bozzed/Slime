@@ -17,7 +17,6 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][][];
-	boolean drawPath = true;
 	
 	public TileManager(GamePanel gp) {
 		this.gp = gp;
@@ -194,7 +193,7 @@ public class TileManager {
 				worldRow++;
 			}
 		}
-		if (drawPath == true) {
+		if (gp.debug == true) {
 			g2.setColor(new Color(255, 0, 0, 70));
 			
 			for (int i = 0; i < gp.pFinder.pathList.size(); i++) {

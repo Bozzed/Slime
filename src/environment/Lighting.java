@@ -24,6 +24,7 @@ public class Lighting {
 	public final int night = 2;
 	public final int dawn = 3;
 	public int dayState = day;
+	public String currentDayState;
 	
 	public Lighting(GamePanel gp) {
 		this.gp = gp;
@@ -111,21 +112,11 @@ public class Lighting {
 		}
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 		
-		String situation = "";
-		
 		switch(dayState) {
-		case 0: situation = "Day"; break;
-		case 1: situation = "Dusk"; break;
-		case 2: situation = "Night"; break;
-		case 3: situation = "Dawn"; break;
-		}
-		if (gp.debug == true) {
-			g2.setColor(Color.black);
-			g2.setFont(g2.getFont().deriveFont(50F));
-			g2.drawString(situation, 805, 505);
-			g2.setColor(Color.white);
-			g2.setFont(g2.getFont().deriveFont(50F));
-			g2.drawString(situation, 800, 500);
+		case 0: currentDayState = "Day"; break;
+		case 1: currentDayState = "Dusk"; break;
+		case 2: currentDayState = "Night"; break;
+		case 3: currentDayState = "Dawn"; break;
 		}
 	}
 }

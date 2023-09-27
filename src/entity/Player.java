@@ -7,8 +7,11 @@ import java.awt.image.BufferedImage;
 import Quest.Quest;
 import main.GamePanel;
 import main.KeyHandler;
-import object.OBJ_Bow;
-import object.OBJ_Shortsword;
+import material.MAT_IronNugget;
+import material.MAT_Stick;
+import object.OBJ_Knife;
+import object.OBJ_Sleeping_Bag;
+import object.OBJ_Syringe;
 
 public class Player extends Entity {
 	GamePanel gp;
@@ -28,7 +31,7 @@ public class Player extends Entity {
 		
 		this.gp = gp;
 		this.keyH = keyH;
-		this.name = "rookie";
+		this.name = "player";
 		
 		screenX = gp.screenWidth/2 - (gp.tileSize/2);
 		screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -77,19 +80,21 @@ public class Player extends Entity {
 		exp = 0;
 		nextLevelExp = 4;
 		money = 100;
-		currentWeapon = new OBJ_Shortsword(gp);
+		hand = new OBJ_Knife(gp);
 		attack = getAttack();
 	}
 	public void setItems () {
 		inventory.clear();
-		inventory.add(currentWeapon);
-		inventory.add(new OBJ_Bow(gp));
+		inventory.add(hand);
+		inventory.add(new OBJ_Sleeping_Bag(gp));
+		inventory.add(new OBJ_Syringe(gp));
+		inventory.add(new MAT_Stick(gp));
+		inventory.add(new MAT_IronNugget(gp));
 	}
 	public int getAttack() {
-		attackArea = currentWeapon.attackArea;
-		return attack = strength*currentWeapon.attackValue;
+		attackArea = hand.attackArea;
+		return attack = strength*hand.attackValue;
 	}
-
 	public void getPlayerImage() {
 		up1 = setup("/player/up_1", gp.tileSize, gp.tileSize);
 		up2 = setup("/player/up_2", gp.tileSize, gp.tileSize);
@@ -100,9 +105,8 @@ public class Player extends Entity {
 		right1 = setup("/player/right_1", gp.tileSize, gp.tileSize);
 		right2 = setup("/player/right_2", gp.tileSize, gp.tileSize);
 	}
-
 	public void getPlayerAttackImage() {
-		if (currentWeapon.type == melee_type) {
+		if (hand.type == melee_type) {
 			attackUp1 = setup("/player/attack/attack_up_1", gp.tileSize, gp.tileSize*2);
 			attackUp2 = setup("/player/attack/attack_up_2", gp.tileSize, gp.tileSize*2);
 			attackDown1 = setup("/player/attack/attack_down_1", gp.tileSize, gp.tileSize*2);
@@ -111,7 +115,7 @@ public class Player extends Entity {
 			attackLeft2 = setup("/player/attack/attack_left_2", gp.tileSize*2, gp.tileSize);
 			attackRight1 = setup("/player/attack/attack_right_1", gp.tileSize*2, gp.tileSize);
 			attackRight2 = setup("/player/attack/attack_right_2", gp.tileSize*2, gp.tileSize);
-		} else if (currentWeapon.type == axe_type) {
+		} else if (hand.type == axe_type) {
 			attackUp1 = setup("/player/attack/axe_up_1", gp.tileSize, gp.tileSize*2);
 			attackUp2 = setup("/player/attack/axe_up_2", gp.tileSize, gp.tileSize*2);
 			attackDown1 = setup("/player/attack/axe_down_1", gp.tileSize, gp.tileSize*2);
@@ -120,7 +124,7 @@ public class Player extends Entity {
 			attackLeft2 = setup("/player/attack/axe_left_2", gp.tileSize*2, gp.tileSize);
 			attackRight1 = setup("/player/attack/axe_right_1", gp.tileSize*2, gp.tileSize);
 			attackRight2 = setup("/player/attack/axe_right_2", gp.tileSize*2, gp.tileSize);
-		} else if (currentWeapon.type == pickaxe_type) {
+		} else if (hand.type == pickaxe_type) {
 			attackUp1 = setup("/player/attack/pickaxe_up_1", gp.tileSize, gp.tileSize*2);
 			attackUp2 = setup("/player/attack/pickaxe_up_2", gp.tileSize, gp.tileSize*2);
 			attackDown1 = setup("/player/attack/pickaxe_down_1", gp.tileSize, gp.tileSize*2);
@@ -129,7 +133,7 @@ public class Player extends Entity {
 			attackLeft2 = setup("/player/attack/pickaxe_left_2", gp.tileSize*2, gp.tileSize);
 			attackRight1 = setup("/player/attack/pickaxe_right_1", gp.tileSize*2, gp.tileSize);
 			attackRight2 = setup("/player/attack/pickaxe_right_2", gp.tileSize*2, gp.tileSize);
-		}  else if (currentWeapon.type == broadsword_type) {
+		}  else if (hand.type == broadsword_type) {
 			attackUp1 = setup("/player/attack/broadsword_up_1", gp.tileSize, gp.tileSize*2);
 			attackUp2 = setup("/player/attack/broadsword_up_2", gp.tileSize, gp.tileSize*2);
 			attackDown1 = setup("/player/attack/broadsword_down_1", gp.tileSize, gp.tileSize*2);
@@ -244,21 +248,13 @@ public class Player extends Entity {
 	public int getCurrentWeaponSlot() {
 		int slot = 0;
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i) == currentWeapon) {
+			if (inventory.get(i) == hand) {
 				slot = i;
 			}
 		}
 		return slot;
 	}
-	public int getCurrentShieldSlot() {
-		int slot = 0;
-		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i) == currentShield) {
-				slot = i;
-			}
-		}
-		return slot;
-	}
+
 
 	public void pickUpObject(int i) {
 		
@@ -295,21 +291,13 @@ public class Player extends Entity {
 	public int getCurrentWeaponOnSlot() {
 		int slot = 0;
 		for (int i = 0; i < gp.player.inventory.size(); i++) {
-			if (inventory.get(i) == currentWeapon) {
+			if (inventory.get(i) == hand) {
 				slot = i;
 			}
 		}
 		return slot;
 	}
-	public int getCurrentShieldOnSlot() {
-		int slot = 0;
-		for (int i = 0; i < gp.player.inventory.size(); i++) {
-			if (inventory.get(i) == currentShield) {
-				slot = i;
-			}
-		}
-		return slot;
-	}
+
 
 	public void damageProjectile(int i) {
 		if (i != 999) {
@@ -343,19 +331,21 @@ public class Player extends Entity {
 					damage = 0;
 				}
 				gp.monster[gp.currentMap][i].life -= damage;
-				
 				gp.ui.addMessage("Dealt " + damage + " damage!");
-				
 				gp.monster[gp.currentMap][i].invincible = true;
 				gp.monster[gp.currentMap][i].damageReaction();
+				
 				gp.monster[gp.currentMap][i].hpBarOn = true;
-				gp.monster[gp.currentMap][i].aggrovate = true;
 				if (gp.monster[gp.currentMap][i].life <= 0) {
+					
 					gp.monster[gp.currentMap][i].dying = true;
+					
 					gp.ui.addMessage("Killed " + gp.monster[gp.currentMap][i].name + "!");
 					exp += gp.monster[gp.currentMap][i].exp;
 					gp.ui.addMessage("+" + gp.monster[gp.currentMap][i].exp + " exp");
+					
 					gp.monster[gp.currentMap][i].checkDrop();
+					
 					if (quest != null) {
 						if (gp.monster[gp.currentMap][i].name == quest.reqEntity.name) {
 							amountQuestComplete++;
@@ -387,7 +377,11 @@ public class Player extends Entity {
 			maxLife += 1;
 			nextLevelExp *= 3;
 			life = maxLife;
+			gp.ui.addMessage("Level up!");
 		}
+	}
+	public void selectWorkbenchItem() {
+		
 	}
 	public void selectItem() {
 		int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
@@ -397,7 +391,7 @@ public class Player extends Entity {
 			
 			if (selectedItem.type == melee_type || selectedItem.type == axe_type || selectedItem.type == pickaxe_type || selectedItem.type == projectile_type) {
 				
-				currentWeapon = selectedItem;
+				hand = selectedItem;
 				attack = getAttack();
 				getPlayerAttackImage();
 			}

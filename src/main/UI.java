@@ -42,10 +42,8 @@ public class UI {
 	public int npcSlotCol = 0;
 	public int npcSlotRow = 0;
 	int subState = 0;
-	int statusState = 0;
 	int moveCounter = 0;
 	boolean transitioning = false;
-	int tempStatusState;
 	
 	// TITLE SCREEN
 	public int commandNum = 0;
@@ -195,13 +193,13 @@ public class UI {
 				String s = String.valueOf(characters[charIndex]);
 				combinedText = combinedText + s;
 				currentDialogue = combinedText;
-				if (s != " ") {
-					gp.playSE(5);
-				}
+			//	if (s != " ") {
+			//		gp.playSE(5);
+			//	}
 				charIndex++;
 			}
 			
-			if(gp.keyH.enterPressed == true) {
+			else if(gp.keyH.enterPressed == true) {
 				charIndex = 0;
 				combinedText = "";
 				
@@ -322,8 +320,12 @@ public class UI {
 		drawSubWindow(frameX, frameY, size, size, g2);
 		
 		for (int i = 0; i < gp.player.inventory.size(); i++) {
-			if (gp.player.inventory.get(i) == gp.player.currentWeapon) {
-				g2.drawImage(gp.player.inventory.get(i).down1, frameX + 9, frameY + 8, null);
+			if (gp.player.inventory.get(i) == gp.player.hand) {
+				if (gp.player.inventory.get(i).type == gp.player.inventory.get(i).projectile_type) {
+					g2.drawImage(gp.player.inventory.get(i).image, frameX + 9, frameY + 8, null);
+				} else {
+					g2.drawImage(gp.player.inventory.get(i).down1, frameX + 9, frameY + 8, null);
+				}
 			}
 		}
 		
@@ -340,7 +342,7 @@ public class UI {
 		// TEXT
 		g2.setColor(Color.white);
 		g2.setFont(maruMonica);
-		g2.setFont(g2.getFont().deriveFont(32F));
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 		int textX = frameX + gp.tileSize;
 		int textY = frameY + gp.tileSize;
 		final int lineHeight = 35;
@@ -361,7 +363,7 @@ public class UI {
 		textY += lineHeight;
 		g2.drawString("Weapon: ", textX, textY);
 		textY += gp.tileSize;
-		g2.drawImage(gp.player.currentWeapon.down1, textX, textY - gp.tileSize, null);
+		g2.drawImage(gp.player.hand.down1, textX, textY - gp.tileSize, null);
 		textY += lineHeight;
 	}
 	public void drawTitleScreen(Graphics2D g2) {
@@ -484,31 +486,17 @@ public class UI {
 		for (int i = 0; i < entity.inventory.size(); i++) {
 			
 			// EQUIPT CURSOR
-			if (entity.inventory.get(i) == entity.currentLight || entity.inventory.get(i) == entity.currentWeapon || entity.inventory.get(i) == entity.currentShield) {
+			if (entity.inventory.get(i) == entity.currentLight || entity.inventory.get(i) == entity.hand) {
 				g2.setColor(new Color(240, 190, 90));
 				g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
 			}
 			if (entity.inventory.get(i).type == entity.inventory.get(i).projectile_type) {
 				g2.drawImage(entity.inventory.get(i).image, slotX, slotY, null);
-				g2.setFont(g2.getFont().deriveFont(32f));
-				int amountX;
-				int amountY;
-				
-				String s = "" + entity.inventory.get(i).ammo;
-				
-				amountX = (slotX + gp.tileSize) - 10;
-				amountY = (slotY + gp.tileSize);
-				g2.setColor(new Color(60, 60, 60));
-				
-				g2.drawString(s, amountX, amountY);
-				
-				g2.setColor(Color.white);
-				g2.drawString(s, amountX-3, amountY-3);
 			} else {
 				g2.drawImage(entity.inventory.get(i).down1, slotX, slotY, null);
 			}
 			if (entity.inventory.get(i).amount > 1) {
-				g2.setFont(g2.getFont().deriveFont(32f));
+				g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 				int amountX;
 				int amountY;
 				
@@ -568,11 +556,11 @@ public class UI {
 			}
 		}
 	}
-	public void drawOptionsScreen(Graphics2D g2, int x) {
+	public void drawOptionsScreen(Graphics2D g2) {
 		g2.setColor(Color.white);
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 		
-		int frameX = (gp.tileSize*6) + x;
+		int frameX = (gp.tileSize*6);
 		int frameY = gp.tileSize;
 		int frameWidth = gp.tileSize*8;
 		int frameHeight = gp.tileSize*10;
@@ -655,14 +643,21 @@ public class UI {
 			}
 		}
 		
-		// IN DEVELOPMENT
-		text = "(IN DEVELOPMENT)";
+		// MOVEMENT TYPE
+		text = "🔄 Movement: " + gp.movement;
 		textY += gp.tileSize;
 		g2.drawString(text, textX, textY);
 		if (commandNum == 3) {
 			g2.drawString(">", textX - 25, textY);
 			if (gp.keyH.enterPressed == true) {
-				
+				switch (gp.movement) {
+				case "keys":
+					gp.movement = "mouse";
+					break;
+				case "mouse":
+					gp.movement = "keys";
+					break;
+				}
 			}
 		}
 		
@@ -880,7 +875,6 @@ public class UI {
 				if (npc.inventory.get(itemIndex).price > gp.player.money) {
 					subState = 0;
 					npc.startDialogue(npc, 2);
-					drawDialogueScreen(g2);
 				}
 				else {
 					if (gp.player.canObtainItem(npc.inventory.get(itemIndex)) == true) {
@@ -936,17 +930,10 @@ public class UI {
 			y += 35;
 			g2.drawString(text, x, y);
 			if (gp.keyH.enterPressed == true) {
-				if (gp.player.inventory.get(itemIndex) == gp.player.currentWeapon || gp.player.inventory.get(itemIndex) == gp.player.currentShield || gp.player.inventory.get(itemIndex) == gp.player.projectile) {
+				if (gp.player.inventory.get(itemIndex) == gp.player.hand || gp.player.inventory.get(itemIndex) == gp.player.currentLight) {
 					subState = 0;
-					gp.gameState = gp.dialogueState;
-					currentDialogue = "You can't sell equipted items, hehe...";
-				}
-				else if (npc.inventory.size() == npc.maxInventorySize) {
-					subState = 0;
-					gp.gameState = gp.dialogueState;
-					currentDialogue = "I can't carry anything else, hehe...";
-				}
-				else {
+					npc.startDialogue(npc, 4);
+				} else {
 					if (gp.player.inventory.get(itemIndex).amount > 1) {
 						gp.player.inventory.get(itemIndex).amount--;
 					} else {
@@ -956,6 +943,69 @@ public class UI {
 				}
 			}
 		}
+    }
+    public void drawWorkbenchScreen(Graphics2D g2) {
+    	int x;
+		int y;
+		int width;
+		int height;
+		String text;
+		
+		
+		g2.setFont(maruMonica);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+		g2.setColor(Color.white);
+		
+		x = gp.screenWidth/2 - gp.tileSize;
+		y = gp.tileSize;
+		width = gp.tileSize * 4;
+		height = gp.tileSize * 6;
+		text = "ESC - Exit";		
+		
+		g2.drawString(text, x, y);
+		
+		x -= gp.tileSize;
+		y += gp.tileSize * 2;
+		text = "Crafting";
+		
+		drawSubWindow(x, y, width, height, g2);
+		
+		g2.drawString(text, x + 42, y + 40);
+		
+		drawInventory(g2, gp.player, false, 0);
+		
+		final int slotXstart = x - 10;
+		final int slotYstart = y + 50;
+		int slotX = slotXstart;
+		int slotY = slotYstart;
+		int slotCol = playerSlotCol;
+		int slotRow = playerSlotRow;
+		int slotSize = gp.tileSize + 3;
+		int ii = 0;
+		
+		for (int i = 0; i < gp.recepies.length; i++) {
+            if (gp.recepies[i] != null) {
+    			g2.drawImage(gp.recepies[i].down1, slotX + gp.tileSize, slotY, null);
+    			
+    			ii++;
+    			slotX += slotSize;
+    			
+    			if (ii == 2 || ii == 4 || ii == 6) {
+    				slotX = slotXstart;
+    				
+    				slotY += slotSize;
+    			}
+            }
+		}
+		
+		int cursorX = slotXstart + (slotSize * slotCol);
+		int cursorY = slotYstart + (slotSize * slotRow);
+		int cursorWidth = gp.tileSize;
+		int cursorHeight = gp.tileSize;
+		
+		g2.setColor(Color.white);
+		g2.setStroke(new BasicStroke(3));
+		g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
     }
     public void draw (Graphics2D g2) {
 		//TITLE STATE
@@ -1016,7 +1066,10 @@ public class UI {
     		gp.map.drawFullMapScreen(g2);
     	}
     	if (gp.gameState == gp.optionsState) {
-    		drawOptionsScreen(g2, 0);
+    		drawOptionsScreen(g2);
+    	}
+    	if (gp.gameState == gp.workbenchState) {
+    		drawWorkbenchScreen(g2);
     	}
 	}
 }

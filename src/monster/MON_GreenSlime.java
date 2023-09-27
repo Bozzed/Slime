@@ -33,6 +33,7 @@ public class MON_GreenSlime extends Entity {
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
 		projectile = new OBJ_Rock(gp);
+		knockBackPower = 5;
 		
 		getImage();
 		

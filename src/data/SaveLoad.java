@@ -80,7 +80,7 @@ public class SaveLoad {
 				gp.player.inventory.get(i).amount = ds.itemAmounts.get(i);
 			}
 			
-			gp.player.currentWeapon = gp.player.inventory.get(ds.currentWeaponSlot);
+			gp.player.hand = gp.player.inventory.get(ds.currentWeaponSlot);
 			
 			gp.player.getAttack();
 			gp.player.getPlayerAttackImage();

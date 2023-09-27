@@ -1,6 +1,5 @@
 package object;
 
-import entity.Entity;
 import entity.Projectile;
 import main.GamePanel;
 
@@ -22,7 +21,7 @@ public class OBJ_Glock_17 extends Projectile{
 		bulletCost = 1;
 		alive = false;
 		type = projectile_type;
-		price = 10;
+		price = 150;
 		knockBackPower = 5;
 		
 		getImage();

@@ -34,6 +34,10 @@ public class Config {
 			bw.write(String.valueOf(gp.sound.volumeScale));
 			bw.newLine();
 			
+			// MOVEMENT
+			bw.write(gp.movement);
+			bw.newLine();
+			
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -57,6 +61,12 @@ public class Config {
 			// SOUND
 			s = br.readLine();
 			gp.sound.volumeScale = Integer.parseInt(s);
+			
+			// MOVEMENT
+			s = br.readLine();
+			if (s.equals("mouse")) {
+				gp.movement = s;
+			}
 			
 			br.close();
 		} catch (IOException e) {
