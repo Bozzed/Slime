@@ -389,7 +389,7 @@ public class UI {
 		g2.drawString(text, x, y);
 		
 		// VERSION
-		text = "Early Acess 1.0.1";
+		text = "Early Acess 1.0.2";
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
 		g2.drawString(text, x, y + 30);
 		

@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.Taskbar;
+import java.awt.Taskbar.State;
+
 import javax.swing.*;
 
 public class Main {
@@ -13,6 +16,9 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        
+        Taskbar taskbar = Taskbar.getTaskbar();
+        
         window.setTitle("Slimes");
         new Main().setIcon();
 
@@ -32,7 +38,8 @@ public class Main {
         gamePanel.setupGame();
         gamePanel.startGameThread();
         
-
+    //    taskbar.setWindowProgressState(window, State.ERROR);
+    //    taskbar.setWindowProgressValue(window, 50); 
     }
     public void setIcon() {
     	ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));

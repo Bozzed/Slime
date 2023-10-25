@@ -381,7 +381,7 @@ public class Player extends Entity {
 		}
 	}
 	public void selectWorkbenchItem() {
-		
+		System.out.println("Something!");
 	}
 	public void selectItem() {
 		int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
