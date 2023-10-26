@@ -105,25 +105,25 @@ public class KeyHandler implements KeyListener {
 		}
 	}
 	public void npcInventory(int code) {
-		if (code == KeyEvent.VK_UP) {
+		if (code == KeyEvent.VK_W) {
 			if (gp.ui.npcSlotRow != 0) {
 				gp.ui.npcSlotRow--;
 				gp.playSE(2);
 			}
 		}
-		if (code == KeyEvent.VK_LEFT) {
+		if (code == KeyEvent.VK_A) {
 			if (gp.ui.npcSlotCol != 0) {
 				gp.ui.npcSlotCol--;
 				gp.playSE(2);
 			}
 		}
-		if (code == KeyEvent.VK_DOWN) {
+		if (code == KeyEvent.VK_S) {
 			if (gp.ui.npcSlotRow != 3) {
 				gp.ui.npcSlotRow++;
 				gp.playSE(2);
 			}
 		}
-		if (code == KeyEvent.VK_RIGHT) {
+		if (code == KeyEvent.VK_D) {
 			if (gp.ui.npcSlotCol != 4) {
 				gp.ui.npcSlotCol++;
 				gp.playSE(2);
@@ -136,13 +136,13 @@ public class KeyHandler implements KeyListener {
 			enterPressed = true;
 		}
 		if (gp.ui.subState == 0) {
-			if (code == KeyEvent.VK_UP) {
+			if (code == KeyEvent.VK_W) {
 				gp.ui.commandNum--;
 				if (gp.ui.commandNum < 0) {
 					gp.ui.commandNum = 2;
 				}
 			}
-			if (code == KeyEvent.VK_DOWN) {
+			if (code == KeyEvent.VK_S) {
 				gp.ui.commandNum++;
 				if (gp.ui.commandNum > 2) {
 					gp.ui.commandNum = 0;

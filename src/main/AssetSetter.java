@@ -13,12 +13,12 @@ import entity.NPC_House;
 import entity.NPC_Log;
 import object.OBJ_Axe;
 import object.OBJ_GoldCoin;
+import object.OBJ_HealthSyringe;
 import object.OBJ_Chest;
 import object.OBJ_Flashlight;
 import object.OBJ_Gate;
 import object.OBJ_SilverCoin;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Syringe;
 import object.OBJ_Table;
 import object.OBJ_Workbench;
 import tile_interactive.IT_DeadFlower;
@@ -60,6 +60,7 @@ public class AssetSetter {
 		gp.iTile[mapNum][i] = new IT_DeadFlower(gp, 14, 42);i++;
 		gp.iTile[mapNum][i] = new IT_DeadFlower(gp, 4, 45);i++;
 		gp.iTile[mapNum][i] = new IT_Fungi(gp, 5, 45);i++;
+		gp.iTile[mapNum][i] = new IT_Jar(gp, 4, 19);i++;
 		
 		gp.iTile[mapNum][i] = new IT_YoungTree(gp, 39, 31);i++;
 		gp.iTile[mapNum][i] = new IT_YoungTree(gp, 39, 32);i++;
@@ -88,7 +89,7 @@ public class AssetSetter {
 		gp.obj[mapNum][i].worldX = 34 * gp.tileSize;
 		gp.obj[mapNum][i].worldY = 23 * gp.tileSize;
 		i++;
-		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Syringe(gp), null);
+		gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_HealthSyringe(gp), null);
 		gp.obj[mapNum][i].worldX = 29 * gp.tileSize;
     	gp.obj[mapNum][i].worldY = 17 * gp.tileSize;
 		i++;

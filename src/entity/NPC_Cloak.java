@@ -34,7 +34,7 @@ public class NPC_Cloak extends Entity{
 	}
 	public void setAction() {
 		if (onPath == true) {
-			searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
+			searchPath(13, 5);
 		} else {
 			getRandomDirection(120);
 		}

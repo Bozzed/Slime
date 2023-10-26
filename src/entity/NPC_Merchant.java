@@ -5,8 +5,9 @@ import material.MAT_IronNugget;
 import object.OBJ_Broadsword;
 import object.OBJ_Flashlight;
 import object.OBJ_Glock_17;
+import object.OBJ_HealthSyringe;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Syringe;
+import object.OBJ_SpeedSyringe;
 
 public class NPC_Merchant extends Entity{
 	public NPC_Merchant (GamePanel gp) {
@@ -43,7 +44,8 @@ public class NPC_Merchant extends Entity{
 		inventory.add(new OBJ_Broadsword(gp));
 		inventory.add(new OBJ_Glock_17(gp));
 		inventory.add(new OBJ_Flashlight(gp));
-		inventory.add(new OBJ_Syringe(gp));
+		inventory.add(new OBJ_HealthSyringe(gp));
+		inventory.add(new OBJ_SpeedSyringe(gp));
 		inventory.add(new OBJ_Sleeping_Bag(gp));
 		inventory.add(new MAT_IronNugget(gp));
 	}

@@ -17,7 +17,8 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         
-        Taskbar taskbar = Taskbar.getTaskbar();
+        @SuppressWarnings("unused")
+		Taskbar taskbar = Taskbar.getTaskbar();
         
         window.setTitle("Slimes");
         new Main().setIcon();

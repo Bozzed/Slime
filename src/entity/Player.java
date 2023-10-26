@@ -9,9 +9,10 @@ import main.GamePanel;
 import main.KeyHandler;
 import material.MAT_IronNugget;
 import material.MAT_Stick;
+import object.OBJ_HealthSyringe;
 import object.OBJ_Knife;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Syringe;
+import object.OBJ_SpeedSyringe;
 
 public class Player extends Entity {
 	GamePanel gp;
@@ -87,7 +88,8 @@ public class Player extends Entity {
 		inventory.clear();
 		inventory.add(hand);
 		inventory.add(new OBJ_Sleeping_Bag(gp));
-		inventory.add(new OBJ_Syringe(gp));
+		inventory.add(new OBJ_HealthSyringe(gp));
+		inventory.add(new OBJ_SpeedSyringe(gp));
 		inventory.add(new MAT_Stick(gp));
 		inventory.add(new MAT_IronNugget(gp));
 	}

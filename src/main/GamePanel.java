@@ -464,4 +464,14 @@ public class GamePanel extends JPanel implements Runnable {
     	recepies[1] = new OBJ_Knife(this);
     	recepies[2] = new OBJ_Flashlight(this);
     }
+    public boolean toggle(boolean in) {
+    	boolean out;
+    	if (in == true) {
+    		out = false;
+    	} else {
+    		out = true;
+    	}
+    	
+    	return out;
+    }
 }

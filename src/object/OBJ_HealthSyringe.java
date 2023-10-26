@@ -3,15 +3,15 @@ package object;
 import entity.Entity;
 import main.GamePanel;
 
-public class OBJ_Syringe extends Entity {
-	public static final String objName = "Sryinge";
+public class OBJ_HealthSyringe extends Entity {
+	public static final String objName = "Health Syringe";
 	GamePanel gp;
-	public OBJ_Syringe(GamePanel gp) {
+	public OBJ_HealthSyringe(GamePanel gp) {
 		super(gp);
 		this.gp = gp;
 		name = objName;
 		
-		down1 = setup("/objects/srynge", gp.tileSize, gp.tileSize);
+		down1 = setup("/objects/health_syringe", gp.tileSize, gp.tileSize);
 		
 		description = "[" + name + "]\nHeals 5 health.\nPress ENTER to use.";
 		

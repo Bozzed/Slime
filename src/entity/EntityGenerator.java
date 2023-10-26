@@ -9,13 +9,14 @@ import object.OBJ_Flashlight;
 import object.OBJ_Gate;
 import object.OBJ_Glock_17;
 import object.OBJ_GoldCoin;
+import object.OBJ_HealthSyringe;
 import object.OBJ_Iron_Door;
 import object.OBJ_Pickaxe;
 import object.OBJ_Knife;
 import object.OBJ_Rock;
 import object.OBJ_SilverCoin;
 import object.OBJ_Sleeping_Bag;
-import object.OBJ_Syringe;
+import object.OBJ_SpeedSyringe;
 import object.OBJ_Workbench;
 
 public class EntityGenerator {
@@ -40,7 +41,9 @@ public class EntityGenerator {
 			break;
 		case OBJ_Sleeping_Bag.objName: obj = new OBJ_Sleeping_Bag(gp);
 			break;
-		case OBJ_Syringe.objName: obj = new OBJ_Syringe(gp);
+		case OBJ_HealthSyringe.objName: obj = new OBJ_HealthSyringe(gp);
+			break;
+		case OBJ_SpeedSyringe.objName: obj = new OBJ_SpeedSyringe(gp);
 			break;
 		case OBJ_Gate.objName: obj = new OBJ_Gate(gp);
 			break;

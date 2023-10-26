@@ -28,6 +28,9 @@ public class CutsceneManager {
 		case spiderLord: scene_spiderLord();
 		}
 	}
+	public void scene_start() {
+		
+	}
 	public void scene_spiderLord() {
 		if (scenePhase == 0) {
 			
