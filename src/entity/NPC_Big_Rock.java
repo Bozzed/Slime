@@ -3,7 +3,6 @@ package entity;
 import java.util.ArrayList;
 
 import main.GamePanel;
-import object.OBJ_Iron_Door;
 import tile_interactive.IT_Metal_Plate;
 import tile_interactive.InteractiveTile;
 
@@ -111,9 +110,9 @@ public class NPC_Big_Rock extends Entity{
 		}
 		if (count == rockList.size()) {
 			for (int i = 0; i < gp.obj[1].length; i++) {
-				if (gp.obj[gp.currentMap][i] != null && gp.obj[gp.currentMap][i].name.equals(OBJ_Iron_Door.objName)) {
-					gp.obj[gp.currentMap][i] = null;
-				}
+			//	if (gp.obj[gp.currentMap][i] != null && gp.obj[gp.currentMap][i].name.equals(OBJ_Iron_Door.objName)) {
+			//		gp.obj[gp.currentMap][i] = null;
+			//	}
 			}
 		}
 	}

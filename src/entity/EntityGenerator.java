@@ -8,7 +8,6 @@ import object.OBJ_Flashlight;
 import object.OBJ_Glock_17;
 import object.OBJ_GoldCoin;
 import object.OBJ_HealthSyringe;
-import object.OBJ_Iron_Door;
 import object.OBJ_Knife;
 import object.OBJ_Rock;
 import object.OBJ_SilverCoin;
@@ -39,8 +38,6 @@ public class EntityGenerator {
 		case OBJ_HealthSyringe.objName: obj = new OBJ_HealthSyringe(gp);
 			break;
 		case OBJ_SpeedSyringe.objName: obj = new OBJ_SpeedSyringe(gp);
-			break;
-		case OBJ_Iron_Door.objName: obj = new OBJ_Iron_Door(gp);
 			break;
 		case OBJ_GoldCoin.objName: obj = new OBJ_GoldCoin(gp);
 			break;

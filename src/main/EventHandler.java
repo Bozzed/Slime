@@ -1,7 +1,6 @@
 package main;
 
 import entity.Entity;
-import object.OBJ_Iron_Door;
 
 public class EventHandler {
 	
