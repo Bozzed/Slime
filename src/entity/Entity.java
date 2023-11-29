@@ -27,10 +27,8 @@ public class Entity {
 	Entity attacker;
 	
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-	public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2,
-	gaurdDown, gaurdUp, gaurdLeft, gaurdRight;
+	public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
 	public String direction = "down";
-	public boolean gaurd = false;
 
 	public int solidAreaX = 8;
 	public int solidAreaY = 16;
@@ -58,7 +56,6 @@ public class Entity {
 	public boolean temp;
 	public boolean sleep = false;
 	public boolean dropped = false;
-	public boolean flying = false;
 	
 	// COUNTER
 	public int actionLockCounter = 0;
@@ -82,7 +79,6 @@ public class Entity {
 	public int mana;
 	public int level;
 	public int strength;
-	public int dexterity;
 	public int attack;
 	public int defense;
 	public int exp;
@@ -356,8 +352,9 @@ public class Entity {
 				damage = 0;
 			}
 			gp.player.life -= damage;
-			
-			gp.ui.addMessage("Took " + damage + " damage!");
+			if (damage > 0) {
+				gp.ui.addMessage("Took " + damage + " damage!");
+			}
 		}
 	}
 	public void update() {
@@ -506,7 +503,6 @@ public class Entity {
 	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image = null;
-		BufferedImage shadow = setup("/npc/shadow", gp.tileSize, gp.tileSize);
 		
 		if (inCamera() == true) {
 			int tempScreenX = getScreenX();
@@ -578,14 +574,7 @@ public class Entity {
 			else if (invincible == true) {
 				changeAlpha(g2, 0.6f);
 			}
-			if (flying == true) {
-				g2.drawImage(image, tempScreenX, tempScreenY - (gp.tileSize/2), null);
-				changeAlpha(g2, 0.5f);
-				g2.drawImage(shadow, tempScreenX, tempScreenY, null);
-				changeAlpha(g2, 1f);
-			} else {
-				g2.drawImage(image, tempScreenX, tempScreenY, null);
-			}
+			g2.drawImage(image, tempScreenX, tempScreenY, null);
 			changeAlpha(g2, 1f);
 		}
 	}
@@ -809,14 +798,5 @@ public class Entity {
 				shotAvailableCounter = 0;
 			}
 		}
-	}
-	public void ability1() {
-		
-	}
-	public void ability2() {
-		
-	}
-	public void ability3() {
-		
 	}
 }

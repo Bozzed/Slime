@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import Quest.Quest;
 import main.GamePanel;
 import main.KeyHandler;
 import material.MAT_IronNugget;
@@ -24,7 +23,6 @@ public class Player extends Entity {
 	public boolean outside;
 	public boolean lightUpdated = false;
 	
-	public Quest quest;
 	public int amountQuestComplete = 0;
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
@@ -73,11 +71,10 @@ public class Player extends Entity {
 		if (gp.currentMap == 1) {
 			outside = false;
 		}
-		maxLife = 25;
+		maxLife = 6;
 		life = maxLife;
 		level = 1;
 		strength = 1;
-		dexterity = 1;
 		exp = 0;
 		nextLevelExp = 4;
 		money = 100;
@@ -217,7 +214,6 @@ public class Player extends Entity {
 	    	
 	    	gp.keyH.enterPressed = false;
 	    	attackCancelled = false;
-	    	gaurd = false;
 	    	
 	    	spriteCounter++;
 	    	if (spriteCounter > 6) {
@@ -232,7 +228,6 @@ public class Player extends Entity {
 		else {
 			gp.keyH.enterPressed = false;
 	    	attackCancelled = false;
-	    	gaurd = false;
 		}
     	
     	if (invincible == true) {
@@ -347,15 +342,6 @@ public class Player extends Entity {
 					gp.ui.addMessage("+" + gp.monster[gp.currentMap][i].exp + " exp");
 					
 					gp.monster[gp.currentMap][i].checkDrop();
-					
-					if (quest != null) {
-						if (gp.monster[gp.currentMap][i].name == quest.reqEntity.name) {
-							amountQuestComplete++;
-							if (amountQuestComplete == quest.reqEntityAmount) {
-								quest.complete();
-							}
-						}
-					}
 				}
 			}
 		}
@@ -376,7 +362,7 @@ public class Player extends Entity {
 		if (exp >= nextLevelExp) {
 			exp = exp - nextLevelExp;
 			level++;
-			maxLife += 1;
+			maxLife += 2;
 			nextLevelExp *= 3;
 			life = maxLife;
 			gp.ui.addMessage("Level up!");
@@ -391,27 +377,29 @@ public class Player extends Entity {
 		if (itemIndex < inventory.size()) {
 			Entity selectedItem = inventory.get(itemIndex);
 			
-			if (selectedItem.type == melee_type || selectedItem.type == axe_type || selectedItem.type == pickaxe_type || selectedItem.type == projectile_type) {
-				
-				hand = selectedItem;
-				attack = getAttack();
-				getPlayerAttackImage();
-			}
-			if (selectedItem.type == light_type) {
-				if (currentLight == selectedItem) {
-					currentLight = null;
-				} else {
-					currentLight = selectedItem;
+			if (inventory.get(itemIndex) != null) {
+				if (selectedItem.type == melee_type || selectedItem.type == axe_type || selectedItem.type == pickaxe_type || selectedItem.type == projectile_type) {
+					
+					hand = selectedItem;
+					attack = getAttack();
+					getPlayerAttackImage();
 				}
-				lightUpdated = true;
-			}
-			if (selectedItem.type == consumable_type) {
-				if (selectedItem.amount > 1) {
-					selectedItem.use(this);
-					selectedItem.amount--;
-				} else {
-					selectedItem.use(this);
-					inventory.remove(itemIndex);
+				if (selectedItem.type == light_type) {
+					if (currentLight == selectedItem) {
+						currentLight = null;
+					} else {
+						currentLight = selectedItem;
+					}
+					lightUpdated = true;
+				}
+				if (selectedItem.type == consumable_type) {
+					if (selectedItem.amount > 1) {
+						selectedItem.use(this);
+						selectedItem.amount--;
+					} else {
+						selectedItem.use(this);
+						inventory.remove(itemIndex);
+					}
 				}
 			}
 		}
@@ -471,7 +459,6 @@ public class Player extends Entity {
 	}
 	public void draw(Graphics2D g2) {
 		
-		BufferedImage image = null;
 		BufferedImage shadow = setup("/npc/shadow", gp.tileSize, gp.tileSize);
 		int tempScreenX = screenX;
 		int tempScreenY = screenY;
@@ -487,9 +474,6 @@ public class Player extends Entity {
 				if (spriteNum == 1) {image = attackUp1;}
 				if (spriteNum == 2) {image = attackUp2;}
 			}
-			if (gaurd == true) {
-				image = gaurdUp;
-			}
 			break;
 		case "down":
 			if (attacking == false) {
@@ -499,9 +483,6 @@ public class Player extends Entity {
 			if (attacking == true) {
 				if (spriteNum == 1) {image = attackDown1;}
 				if (spriteNum == 2) {image = attackDown2;}
-			}
-			if (gaurd == true) {
-				image = gaurdDown;
 			}
 			break;
 		case "left":
@@ -514,9 +495,6 @@ public class Player extends Entity {
 				if (spriteNum == 1) {image = attackLeft1;}
 				if (spriteNum == 2) {image = attackLeft2;}
 			}
-			if (gaurd == true) {
-				image = gaurdLeft;
-			}
 			break;
 		case "right":
 			if (attacking == false) {
@@ -526,9 +504,6 @@ public class Player extends Entity {
 			if (attacking == true) {
 				if (spriteNum == 1) {image = attackRight1;}
 				if (spriteNum == 2) {image = attackRight2;}
-			}
-			if (gaurd == true) {
-				image = gaurdRight;
 			}
 			break;
 		}

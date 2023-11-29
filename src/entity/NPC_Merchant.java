@@ -2,7 +2,6 @@ package entity;
 
 import main.GamePanel;
 import material.MAT_IronNugget;
-import object.OBJ_Broadsword;
 import object.OBJ_Flashlight;
 import object.OBJ_Glock_17;
 import object.OBJ_HealthSyringe;
@@ -41,7 +40,6 @@ public class NPC_Merchant extends Entity{
 		gp.ui.npc = this;
 	}
 	public void setItems() {
-		inventory.add(new OBJ_Broadsword(gp));
 		inventory.add(new OBJ_Glock_17(gp));
 		inventory.add(new OBJ_Flashlight(gp));
 		inventory.add(new OBJ_HealthSyringe(gp));

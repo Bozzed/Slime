@@ -86,10 +86,6 @@ public class GamePanel extends JPanel implements Runnable {
 	Point point = mInfo.getLocation();
 	public int mouseX;
 	public int mouseY;
-	public String mouseDir;
-    
-    // SOUND
-    public Sound sound = new Sound();
     
     // KEY HANDLER
     public KeyHandler keyH = new KeyHandler(this);
@@ -102,9 +98,6 @@ public class GamePanel extends JPanel implements Runnable {
     
     // GAME THREAD
     Thread gameThread;
-    
-    // CUTSCENE MANAGER
-    public CutsceneManager csManager = new CutsceneManager(this);
     
     // COLLISION CHECKER
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -156,10 +149,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final int cutsceneState = 11;
     public final int optionsState = 12;
     public final int mapState = 13;
-    public final int workbenchState = 14;
-    
-    public boolean bossBattleOn = false;
-    public boolean skeletonLordCutsceneSeen = false;
     
     public String movement = "keys";
 
@@ -175,7 +164,6 @@ public class GamePanel extends JPanel implements Runnable {
     	player.setDefaultPositions();
     	player.restoreAfterDeath();
     	removeTempObjects();
-    	bossBattleOn = false;
     	for (int i = 0; i < monster.length; i++) {
     		if (monster[currentMap][i] != null) {
     			monster[currentMap][i].onPath = false;
@@ -245,7 +233,7 @@ public class GamePanel extends JPanel implements Runnable {
     	}
     }
     public void update() {
-		getMouseValues();
+		resetMouseValues();
     	if (gameState == playState) {
     		// PLAYER
     		player.update();
@@ -409,39 +397,7 @@ public class GamePanel extends JPanel implements Runnable {
             
             // UI
             ui.draw(g2);
-            
-            // CUTSCENE
-            csManager.draw(g2);
-            
-            if (debug == true) {
-            	g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
-            	g2.setColor(Color.white);
-            	
-            	int x = 10;
-            	int y = 400;
-            	
-            	g2.drawString("WorldX: " + player.worldX, x, y); y += 20;
-            	g2.drawString("WorldY: " + player.worldY, x, y); y += 20;
-            	g2.drawString("Col: " + (player.worldX + player.solidArea.x)/tileSize, x, y); y += 20;
-            	g2.drawString("Row: " + (player.worldY + player.solidArea.y)/tileSize, x, y); y += 40;
-            	g2.drawString("FPS: " + currentFPS, x, y); y += 20;
-            	g2.drawString("Time: " + eManager.lighting.currentDayState, x, y); y += 40;
-            	g2.drawString("Mouse X: " + mouseX, x, y); y += 20;
-            	g2.drawString("Mouse Y: " + mouseY, x, y); y += 20;
-            }
         }
-    }
-    public void playMusic(int i) {
-    	sound.setFile(i);
-    	sound.play();
-    	sound.loop();
-    }
-    public void stopMusic() {
-    	sound.stop();
-    }
-    public void playSE(int i) {
-    	sound.setFile(i);
-    	sound.play();
     }
     public void removeTempObjects() {
     	for (int mapNum = 0; mapNum < maxMap; mapNum++) {
@@ -455,7 +411,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void changeArea() {
     	currentArea = nextArea;
     }
-    public void getMouseValues() {
+    public void resetMouseValues() {
+    	point = mInfo.getLocation();
     	mouseX = (int) point.getX();
     	mouseY = (int) point.getY();
     }

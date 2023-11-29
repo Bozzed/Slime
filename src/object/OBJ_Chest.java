@@ -39,7 +39,6 @@ public class OBJ_Chest extends Entity{
 	}
 	public void interact(Entity entity) {
 		if (open == false) {
-			gp.playSE(4);
 			if (loot1.type == pickupOnly_type) {
 				if (loot1 != null) {
 					dropItem(loot1, 2);
@@ -53,7 +52,6 @@ public class OBJ_Chest extends Entity{
 				if (gp.player.inventory.size() != gp.player.maxInventorySize) {
 					down1 = image;
 					gp.player.canObtainItem(loot1);
-					gp.playSE(6);
 					startDialogue(this, 0);
 					open = true;
 				} else {

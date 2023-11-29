@@ -15,15 +15,13 @@ public class OBJ_Heart extends Entity {
 		
 		name = objName;
 		
-		down1 = setup("/objects/heart_full", gp.tileSize, gp.tileSize);
-		
 		type = pickupOnly_type;
 		
 		value = 2;
 		
 		speed = 8;
 		
-		down1 = setup("/objects/heart_full", gp.tileSize, gp.tileSize);
+		down1 = setup("/objects/heart_pickupable", gp.tileSize, gp.tileSize);
 		
 		image = setup("/objects/heart_full", gp.tileSize, gp.tileSize);
 		image2 = setup("/objects/heart_half", gp.tileSize, gp.tileSize);

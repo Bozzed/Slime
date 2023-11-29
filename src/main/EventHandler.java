@@ -60,16 +60,9 @@ public class EventHandler {
 			else if (hit(1, 21, 20, "left") == true) {teleport("/maps/worldV0.txt", 0, 26, 18, "down", gp.outside);}
 			else if (hit(4, 20, 12, "up") == true) {teleport("/maps/worldV0.txt", 0, 23, 8, "down", gp.outside);}
 			else if (hit(0, 23, 8, "up") == true) {teleport("/maps/worldV3.txt", 4, 20, 12, "down", gp.outside);}
-			else if (hit(1, 11, 13, "down") == true) {spiderLord();}
 			else if (hit(4, 17, 19, "up") == true) {healingPool();}
 			else if (hit(2, 21, 21, "up") == true) {speak(gp.npc[2][0]);}
 			else if (hit(4, 23, 23, "any") == true) {quest1();}
-		}
-	}
-	public void spiderLord() {
-		if (gp.bossBattleOn == false) {
-			gp.gameState = gp.cutsceneState;
-			gp.csManager.sceneNum = gp.csManager.spiderLord;
 		}
 	}
 	public boolean hit(int map, int col, int row, String reqDirection) {

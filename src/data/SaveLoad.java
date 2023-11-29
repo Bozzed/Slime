@@ -24,7 +24,6 @@ public class SaveLoad {
 			ds.maxLife = gp.player.maxLife;
 			ds.life = gp.player.life;
 			ds.strength = gp.player.strength;
-			ds.dexterity = gp.player.dexterity;
 			ds.exp = gp.player.exp;
 			ds.nextLevelExp = gp.player.nextLevelExp;
 			ds.money = gp.player.money;
@@ -68,7 +67,6 @@ public class SaveLoad {
 			gp.player.maxLife = ds.maxLife;
 			gp.player.life = ds.life;
 			gp.player.strength = ds.strength;
-			gp.player.dexterity = ds.dexterity;
 			gp.player.exp = ds.exp;
 			gp.player.nextLevelExp = ds.nextLevelExp;
 			gp.player.money = ds.money;

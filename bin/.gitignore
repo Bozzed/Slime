@@ -1,9 +1,16 @@
+/Quest/
+/ai/
+/data/
 /entity/
 /environment/
 /main/
 /material/
 /monster/
 /object/
+/player/
+/projectile/
+/sound/
 /tile/
 /tile_interactive/
-/objects/
+/tiles/
+/tiles_interactive/

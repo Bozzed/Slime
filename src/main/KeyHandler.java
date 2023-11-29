@@ -55,14 +55,6 @@ public class KeyHandler implements KeyListener {
 		else if (gp.gameState == gp.mapState) {
 			mapState(code);
 		}
-		else if (gp.gameState == gp.workbenchState) {
-			if (code == KeyEvent.VK_ENTER) {
-				gp.player.selectWorkbenchItem();
-			}
-			if (code == KeyEvent.VK_ESCAPE) {
-				gp.gameState = gp.playState;
-			}
-		}
 	}
 	public void mapState(int code) {
 		if (code == KeyEvent.VK_M) {
@@ -73,25 +65,21 @@ public class KeyHandler implements KeyListener {
 		if (code == KeyEvent.VK_W) {
 			if (gp.ui.playerSlotRow != 0) {
 				gp.ui.playerSlotRow--;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_A) {
 			if (gp.ui.playerSlotCol != 0) {
 				gp.ui.playerSlotCol--;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_S) {
 			if (gp.ui.playerSlotRow != 3) {
 				gp.ui.playerSlotRow++;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_D) {
 			if (gp.ui.playerSlotCol != 4) {
 				gp.ui.playerSlotCol++;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_E) {
@@ -101,32 +89,27 @@ public class KeyHandler implements KeyListener {
 		}
 		if (code == KeyEvent.VK_ENTER) {
 			gp.player.selectItem();
-			gp.playSE(2);
 		}
 	}
 	public void npcInventory(int code) {
 		if (code == KeyEvent.VK_W) {
 			if (gp.ui.npcSlotRow != 0) {
 				gp.ui.npcSlotRow--;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_A) {
 			if (gp.ui.npcSlotCol != 0) {
 				gp.ui.npcSlotCol--;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_S) {
 			if (gp.ui.npcSlotRow != 3) {
 				gp.ui.npcSlotRow++;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_D) {
 			if (gp.ui.npcSlotCol != 4) {
 				gp.ui.npcSlotCol++;
-				gp.playSE(2);
 			}
 		}
 		
@@ -162,19 +145,17 @@ public class KeyHandler implements KeyListener {
 		}
 	}
 	public void gameOverState(int code) {
-		if (code == KeyEvent.VK_UP) {
+		if (code == KeyEvent.VK_W) {
 			gp.ui.commandNum--;
 			if (gp.ui.commandNum < 0) {
 				gp.ui.commandNum = 0;
 			}
-			gp.playSE(2);
 		}
-		if (code == KeyEvent.VK_DOWN) {
+		if (code == KeyEvent.VK_S) {
 			gp.ui.commandNum++;
 			if (gp.ui.commandNum > 1) {
 				gp.ui.commandNum = 1;
 			}
-			gp.playSE(2);
 		}
 		if (code == KeyEvent.VK_ENTER) {
 			if (gp.ui.commandNum == 0) {
@@ -251,50 +232,21 @@ public class KeyHandler implements KeyListener {
 		}
 		if (code == KeyEvent.VK_ENTER) {
 			enterPressed = true;
-			gp.playSE(2);
-		}
-		if (code == KeyEvent.VK_A) {
-			if (gp.ui.subState == 0) {
-				if (gp.ui.commandNum == 1 && gp.sound.volumeScale > 0) {
-					gp.sound.volumeScale--;
-					gp.sound.checkVolume();
-					gp.playSE(2);
-				}
-				if (gp.ui.commandNum == 2 && gp.sound.volumeScale < 5) {
-					gp.sound.volumeScale--;
-					gp.sound.checkVolume();
-					gp.playSE(2);
-				}
-			}
-		}
-		if (code == KeyEvent.VK_D) {
-			if (gp.ui.subState == 0) {
-				if (gp.ui.commandNum == 1 && gp.sound.volumeScale < 5) {
-					gp.sound.volumeScale++;
-					gp.sound.checkVolume();
-				}
-				if (gp.ui.commandNum == 2 && gp.sound.volumeScale < 5) {
-					gp.sound.volumeScale++;
-					gp.sound.checkVolume();
-				}
-			}
 		}
 		int maxCommandNum = 0;
 		switch (gp.ui.subState) {
-		case 0: maxCommandNum = 5;
+		case 0: maxCommandNum = 4;
 		}
 		if (code == KeyEvent.VK_W) {
 			gp.ui.commandNum--;
 			if (gp.ui.commandNum < 0) {
 				gp.ui.commandNum = maxCommandNum;
-				gp.playSE(2);
 			}
 		}
 		if (code == KeyEvent.VK_S) {
 			gp.ui.commandNum++;
 			if (gp.ui.commandNum > maxCommandNum) {
 				gp.ui.commandNum = 0;
-				gp.playSE(2);
 			}
 		}
 	}

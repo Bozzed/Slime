@@ -96,7 +96,6 @@ public class NPC_Big_Rock extends Entity{
 			if (distance < 20) {
 				if (linkedEntity == null) {
 					linkedEntity = plateList.get(i);
-					gp.playSE(2);
 				}
 			} else {
 				if (linkedEntity == plateList.get(i)) {
@@ -114,7 +113,6 @@ public class NPC_Big_Rock extends Entity{
 			for (int i = 0; i < gp.obj[1].length; i++) {
 				if (gp.obj[gp.currentMap][i] != null && gp.obj[gp.currentMap][i].name.equals(OBJ_Iron_Door.objName)) {
 					gp.obj[gp.currentMap][i] = null;
-					gp.playSE(2);
 				}
 			}
 		}

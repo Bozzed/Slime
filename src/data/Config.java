@@ -30,10 +30,6 @@ public class Config {
 			}
 			bw.newLine();
 			
-			// SOUND
-			bw.write(String.valueOf(gp.sound.volumeScale));
-			bw.newLine();
-			
 			// MOVEMENT
 			bw.write(gp.movement);
 			bw.newLine();
@@ -57,10 +53,6 @@ public class Config {
 			if (s.equals("false")) {
 				gp.fullscreen = false;
 			}
-			
-			// SOUND
-			s = br.readLine();
-			gp.sound.volumeScale = Integer.parseInt(s);
 			
 			// MOVEMENT
 			s = br.readLine();
