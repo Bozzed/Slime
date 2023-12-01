@@ -368,7 +368,7 @@ public class UI {
 		g2.drawString(text, x, y);
 		
 		// VERSION
-		text = "Ver 1.1.0";
+		text = "Ver 1.1.1";
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
 		g2.drawString(text, x, y + 30);
 		
